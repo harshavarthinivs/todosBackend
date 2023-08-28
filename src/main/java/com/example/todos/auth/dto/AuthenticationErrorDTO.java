@@ -1,4 +1,4 @@
-package com.example.todos.auth;
+package com.example.todos.auth.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AuthenticationResponse {
+public class AuthenticationErrorDTO implements AuthenticationResponse{
   
-  private String token;
+  private String message;
 
 }
