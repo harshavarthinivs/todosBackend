@@ -2,13 +2,13 @@ package com.example.todos.user;
 
 import java.util.Collection;
 import java.util.List;
-
+import java.util.Set;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.example.todos.enums.Role;
-
+import com.example.todos.model.TodoDAO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -16,6 +16,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -42,21 +43,26 @@ public class User implements UserDetails {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
-  @Column(name = "username")
+  @Column(name = "username",nullable = false)
   private String username;
-
+  
+  @Column(name = "password",nullable = false)
   private String password;
-
+  
+  @Column(name = "email",nullable = false)
   private String email;
 
   @Enumerated(EnumType.STRING)
   private Role role;
 
-  @Column(name = "firstname")
+  @Column(name = "firstname",nullable=false)
   private String firstName;
 
-  @Column(name = "lastname")
+  @Column(name = "lastname", nullable=false)
   private String lastName;
+  
+  @OneToMany(mappedBy = "user")
+  Set<TodoDAO> todos;
 
 
   /**
