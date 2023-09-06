@@ -22,6 +22,7 @@ public class AuthenticationController {
   public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request) {
     
     AuthenticationResponse authenticationResponse = authenticationService.register(request);
+    
     if (authenticationResponse.getClass() == AuthenticationTokenDTO.class)
       return ResponseEntity.ok(authenticationResponse);
 
