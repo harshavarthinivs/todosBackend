@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import com.example.todos.model.TodoDAO;
 import com.example.todos.model.dto.CreateTodoRequest;
 import com.example.todos.model.dto.TodoResponse;
+import com.example.todos.model.dto.TodoStatusDTO;
 import com.example.todos.repository.TodoRepository;
 import com.example.todos.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ public class TodoService {
 
   private final TodoRepository todoRepository;
   private final UserRepository userRepository;
+
 
   public TodoResponse createTodo(CreateTodoRequest request) {
 
@@ -35,6 +37,31 @@ public class TodoService {
           .title(todoObject.getTitle()).description(todoObject.getDescription()).build();
     }
     return null;
+  }
+
+  public TodoResponse updateStatus(TodoStatusDTO todoStatusDto, String id) {
+
+    TodoDAO todo = todoRepository.findById(Integer.parseInt(id)).orElse(null);
+    if (todo == null)
+      return null;
+
+    todo.setStatus(todoStatusDto.getStatus());
+
+    todoRepository.save(todo);
+
+    var savedTodo = todoRepository.findById(Integer.parseInt(id)).orElse(null);
+    if (savedTodo == null)
+      return null;
+
+    return TodoResponse.builder().id(savedTodo.getId()).priority(savedTodo.getPriority())
+        .status(savedTodo.getStatus()).userId(savedTodo.getUser().getId())
+        .description(savedTodo.getDescription()).title(savedTodo.getTitle()).build();
+
+  }
+  
+  public void deleteTodo(String id) {
+    
+    todoRepository.deleteById(Integer.parseInt(id));
   }
 
 }

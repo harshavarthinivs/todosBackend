@@ -7,6 +7,8 @@ import com.example.todos.user.User;
 
 public interface TodoRepository extends JpaRepository<TodoDAO , Integer> {
   
+  void deleteById(Integer id);
+  
   Optional<TodoDAO> findById(Integer id);
   
   Optional<TodoDAO> findTopByUserOrderByIdDesc(User user);

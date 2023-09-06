@@ -1,5 +1,6 @@
 package com.example.todos.model;
 
+import java.util.Objects;
 import org.hibernate.annotations.Type;
 import com.example.todos.enums.Priority;
 import com.example.todos.enums.TodoStatus;
@@ -48,6 +49,19 @@ public class TodoDAO {
   @JoinColumn(name = "userid")
   private User user; 
   
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    TodoDAO todo = (TodoDAO) o;
+    return Objects.equals(id, todo.id);
+  }
+  
+  @Override
+  public int hashCode() {
+    
+    return Objects.hash(id);
+  }
   /** 
    * set the default  value for  status and priority before inserting into the database
    * */
@@ -55,7 +69,7 @@ public class TodoDAO {
   @PrePersist
   void preInsert() {
     if(status == null) {
-      status = TodoStatus.NOT_STARTED;
+      status = TodoStatus.IN_PROGRESS;
     }
     if( priority == null) {
       priority = Priority.LOW;
