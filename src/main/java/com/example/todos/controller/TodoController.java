@@ -40,6 +40,14 @@ public class TodoController {
     return ResponseEntity.badRequest().build();
   }
   
+  @PatchMapping("/{id}/todo")
+  public ResponseEntity<Object> updateTodo(@RequestBody CreateTodoRequest request, @PathVariable String id) {
+    
+    var response =todoService.updateTodo(request,id);
+    if(response != null) return ResponseEntity.ok().body(response);
+    
+    return ResponseEntity.badRequest().build();
+  }
   @DeleteMapping("/{id}")
   public void deleteTodo(@PathVariable String id) {
     

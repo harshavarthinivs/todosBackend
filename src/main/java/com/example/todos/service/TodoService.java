@@ -38,6 +38,20 @@ public class TodoService {
     }
     return null;
   }
+  
+  /** 
+   * Helper function used for  returning TodoResponse After updation 
+   * */
+  public TodoResponse updatedTodo(String id) {
+    var savedTodo = todoRepository.findById(Integer.parseInt(id)).orElse(null);
+    if (savedTodo == null)
+      return null;
+
+    return TodoResponse.builder().id(savedTodo.getId()).priority(savedTodo.getPriority())
+        .status(savedTodo.getStatus()).userId(savedTodo.getUser().getId())
+        .description(savedTodo.getDescription()).title(savedTodo.getTitle()).build();
+    
+  }
 
   public TodoResponse updateStatus(TodoStatusDTO todoStatusDto, String id) {
 
@@ -49,14 +63,24 @@ public class TodoService {
 
     todoRepository.save(todo);
 
-    var savedTodo = todoRepository.findById(Integer.parseInt(id)).orElse(null);
-    if (savedTodo == null)
-      return null;
+    return updatedTodo(id);
 
-    return TodoResponse.builder().id(savedTodo.getId()).priority(savedTodo.getPriority())
-        .status(savedTodo.getStatus()).userId(savedTodo.getUser().getId())
-        .description(savedTodo.getDescription()).title(savedTodo.getTitle()).build();
-
+  }
+  
+  public TodoResponse updateTodo(CreateTodoRequest request, String id) {
+    
+    TodoDAO todo = todoRepository.findById(Integer.parseInt(id)).orElse(null);
+    
+    if(todo == null) return null;
+    
+    todo.setTitle(request.getTitle());
+    todo.setDescription(request.getDescription());
+    todo.setPriority(request.getPriority());
+        
+    todoRepository.save(todo);
+    
+    return updatedTodo(id);
+    
   }
   
   public void deleteTodo(String id) {
