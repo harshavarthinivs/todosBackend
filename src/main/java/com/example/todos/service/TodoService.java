@@ -58,7 +58,7 @@ public class TodoService {
     TodoDAO todo = todoRepository.findById(Integer.parseInt(id)).orElse(null);
     if (todo == null)
       return null;
-
+    
     todo.setStatus(todoStatusDto.getStatus());
 
     todoRepository.save(todo);
