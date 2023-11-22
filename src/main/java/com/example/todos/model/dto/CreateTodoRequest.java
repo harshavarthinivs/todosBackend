@@ -22,4 +22,6 @@ public class CreateTodoRequest {
   private Priority priority;
   
   private Integer userid;
+  
+  private Integer categoryid;
 }

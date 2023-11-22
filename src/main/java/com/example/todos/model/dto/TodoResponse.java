@@ -1,5 +1,6 @@
 package com.example.todos.model.dto;
 
+import java.time.LocalDateTime;
 import com.example.todos.enums.Priority;
 import com.example.todos.enums.TodoStatus;
 import lombok.AllArgsConstructor;
@@ -24,5 +25,9 @@ public class TodoResponse {
   private TodoStatus status;
   
   private Integer userId; 
+  
+  private LocalDateTime dateTime;
+  
+  private Integer categoryId;
   
 }

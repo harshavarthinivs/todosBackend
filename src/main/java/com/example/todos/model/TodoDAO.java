@@ -1,5 +1,6 @@
 package com.example.todos.model;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 import org.hibernate.annotations.Type;
 import com.example.todos.enums.Priority;
@@ -16,6 +17,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -45,9 +48,17 @@ public class TodoDAO {
   @Enumerated(EnumType.STRING)
   private TodoStatus status;
   
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name="created_at")
+  private LocalDateTime dateTime;
+  
   @ManyToOne
   @JoinColumn(name = "userid")
   private User user; 
+  
+  @ManyToOne
+  @JoinColumn(name = "categoryid")
+  private CategoryDAO categoryDao;
   
   @Override
   public boolean equals(Object o) {
