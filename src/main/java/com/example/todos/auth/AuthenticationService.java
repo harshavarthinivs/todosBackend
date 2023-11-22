@@ -68,7 +68,9 @@ public class AuthenticationService {
 
     return TodoResponse.builder().id(todo.getId()).priority(todo.getPriority())
         .status(todo.getStatus()).description(todo.getDescription()).title(todo.getTitle())
-        .userId(todo.getUser().getId()).build();
+        .userId(todo.getUser().getId())
+        .categoryId(todo.getCategoryDao().getId())
+        .dateTime(todo.getDateTime()).build();
 
   }
 
