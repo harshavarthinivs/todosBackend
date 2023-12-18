@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.todos.model.dto.CreateTodoRequest;
 import com.example.todos.model.dto.TodoStatusDTO;
+import com.example.todos.model.dto.TodoStatusWithIdDTO;
 import com.example.todos.service.TodoService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -40,6 +42,14 @@ public class TodoController {
     return ResponseEntity.badRequest().build();
   }
   
+  @PatchMapping("/bulk/status")
+  public ResponseEntity<Object> updateStatus(@RequestBody List<TodoStatusWithIdDTO> request) {
+    var response = todoService.updateStatus(request);
+    if(response != null) return ResponseEntity.ok().body(response);
+    
+    return ResponseEntity.badRequest().build();
+  }
+  
   @PatchMapping("/{id}/todo")
   public ResponseEntity<Object> updateTodo(@RequestBody CreateTodoRequest request, @PathVariable String id) {
     
@@ -48,10 +58,17 @@ public class TodoController {
     
     return ResponseEntity.badRequest().build();
   }
+  
   @DeleteMapping("/{id}")
   public void deleteTodo(@PathVariable String id) {
     
     todoService.deleteTodo(id);
+  }
+  
+  @DeleteMapping("/bulk")
+  public void deleteTodo(@RequestBody List<String> ids) {
+    
+    todoService.deleteTodo(ids);
   }
 
 }
