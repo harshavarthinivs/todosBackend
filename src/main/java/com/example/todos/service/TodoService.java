@@ -1,5 +1,7 @@
 package com.example.todos.service;
 
+import java.util.List;
+import java.util.ArrayList;
 import org.springframework.stereotype.Service;
 import com.example.todos.enums.TodoStatus;
 import com.example.todos.model.CategoryDAO;
@@ -7,6 +9,7 @@ import com.example.todos.model.TodoDAO;
 import com.example.todos.model.dto.CreateTodoRequest;
 import com.example.todos.model.dto.TodoResponse;
 import com.example.todos.model.dto.TodoStatusDTO;
+import com.example.todos.model.dto.TodoStatusWithIdDTO;
 import com.example.todos.repository.CategoryRepository;
 import com.example.todos.repository.TodoRepository;
 import com.example.todos.user.UserRepository;
@@ -85,6 +88,18 @@ public class TodoService {
     return updatedTodo(id);
 
   }
+  
+  public Object updateStatus(List<TodoStatusWithIdDTO> request) {
+    
+    List<TodoResponse> toReturn = new ArrayList<TodoResponse>();
+    for(var current:request) {
+      
+      var returned = updateStatus(current.getStatus(),current.getId());
+      toReturn.add(returned);
+    }
+    
+    return toReturn;
+  }
 
   public TodoResponse updateTodo(CreateTodoRequest request, String id) {
 
@@ -121,5 +136,11 @@ public class TodoService {
   public void deleteTodo(String id) {
     todoRepository.deleteById(Integer.parseInt(id));
   }
+
+  public void deleteTodo(List<String> ids) {
+    for(var id : ids) deleteTodo(id);
+  }
+
+
 
 }
